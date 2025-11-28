@@ -2,7 +2,7 @@
 
 namespace studentsystem.Entites
 {
-    public class Courses
+    public class Course
     {
         [Key]
         public int CourseId { get; set; }
@@ -11,7 +11,7 @@ namespace studentsystem.Entites
         public string CourseCode { get; set; }
 
         public int Credits { get; set; }
-        public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
+        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
     }
 
 }

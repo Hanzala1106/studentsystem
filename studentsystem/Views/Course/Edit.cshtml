@@ -1,9 +1,11 @@
-﻿@model studentsystem.Entites.Courses
+﻿@model studentsystem.Entites.Course
+
 @{
-	ViewData["Title"] = "Create Course";
+	ViewData["Title"] = "Edit Course";
 }
 <h1>@ViewData["Title"]</h1>
-<form asp-action="Create" method="post">
+<form asp-action="Edit" method="post">
+	<input type="hidden" asp-for="CourseId" />
 	<div class="form-group">
 		<label asp-for="CourseName" class="control-label"></label>
 		<input asp-for="CourseName" class="form-control" />
@@ -19,7 +21,9 @@
 		<input asp-for="CourseCode" class="form-control" />
 		<span asp-validation-for="CourseCode" class="text-danger"></span>
 	</div>
+
+
 	<div class="form-group">
-		<input type="submit" value="Create" class="btn btn-primary" />
+		<input type="submit" value="Save" class="btn btn-primary" />
 	</div>
 </form>

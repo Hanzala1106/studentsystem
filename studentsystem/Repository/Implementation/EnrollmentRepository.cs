@@ -5,7 +5,7 @@ using studentsystem.Repository.Interface;
 
 namespace studentsystem.Repository.Implementation
 {
-    public class EnrollmentRepository : Repository<Enrollments, int>, IEnrollmentRepository
+    public class EnrollmentRepository : Repository<Enrollment, int>, IEnrollmentRepository
     {
         public EnrollmentRepository(AppDbContext context, IHttpContextAccessor httpContext) : base(context, httpContext)
         {
@@ -14,17 +14,17 @@ namespace studentsystem.Repository.Implementation
 
         public Task<int> GetTotalEnrollmentsAsync()
         {
-            return AppDbContext.Enrollments.CountAsync();
+            return AppDbContext.Enrollment.CountAsync();
         }
 
         public async Task<List<object>> GetTopStudentsAsync()
         {
-            return await AppDbContext.Enrollments
+            return await AppDbContext.Enrollment
                .GroupBy(e => e.StudentId)
                .Select(g => new { StudentId = g.Key, Count = g.Count() })
                .OrderByDescending(x => x.Count)
                .Take(5)
-               .Join(AppDbContext.Students,
+               .Join(AppDbContext.Student,
                      g => g.StudentId,
                      s => s.StudentId,
                      (g, s) => new
@@ -38,10 +38,10 @@ namespace studentsystem.Repository.Implementation
 
         public async Task<List<object>> GetPopularCoursesAsync()
         {
-            return await AppDbContext.Enrollments
+            return await AppDbContext.Enrollment
                .GroupBy(e => e.CourseId)
                .Select(g => new { CourseId = g.Key, Count = g.Count() })
-               .Join(AppDbContext.Courses,
+               .Join(AppDbContext.Course,
                      g => g.CourseId,
                      c => c.CourseId,
                      (g, c) => new
@@ -57,7 +57,7 @@ namespace studentsystem.Repository.Implementation
 
         public async Task<List<object>> GetCourseAvgGradesAsync()
         {
-            return await AppDbContext.Enrollments
+            return await AppDbContext.Enrollment
                 .Where(e => e.Grade != null)
                 .GroupBy(e => e.CourseId)
                 .Select(g => new
@@ -75,7 +75,7 @@ namespace studentsystem.Repository.Implementation
 
         public async Task<List<object>> GetGradeDistributionAsync()
         {
-            return await AppDbContext.Enrollments
+            return await AppDbContext.Enrollment
                 .Where(e => e.Grade != null)
                 .GroupBy(e => e.Grade)
                 .Select(g => new { Grade = g.Key, Count = g.Count() })
@@ -83,7 +83,7 @@ namespace studentsystem.Repository.Implementation
         }
         public Task<bool> IsDuplicateEnrollmentAsync(int studentId, int courseId)
         {
-            return AppDbContext.Enrollments
+            return AppDbContext.Enrollment
                 .AnyAsync(e => e.StudentId == studentId && e.CourseId == courseId);
         }
     }

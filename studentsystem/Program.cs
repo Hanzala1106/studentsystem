@@ -1,11 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using studentsystem.Data;
+using studentsystem.Repository.Implementation;
+using studentsystem.Repository.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+//http
+builder.Services.AddHttpContextAccessor();
+//Add unit of work
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

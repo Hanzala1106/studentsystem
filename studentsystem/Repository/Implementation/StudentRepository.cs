@@ -5,7 +5,7 @@ using studentsystem.Repository.Interface;
 
 namespace studentsystem.Repository.Implementation
 {
-    public class StudentRepository : Repository<Students, int>, IStudentRepository
+    public class StudentRepository : Repository<Student, int>, IStudentRepository
     {
         public StudentRepository(AppDbContext context, IHttpContextAccessor httpContext) : base(context, httpContext)
         {
@@ -13,7 +13,7 @@ namespace studentsystem.Repository.Implementation
         private AppDbContext AppDbContext => Context as AppDbContext;
         public Task<bool> IsEmailExist(string email, int? excludeId = null)
         {
-            return AppDbContext.Students
+            return AppDbContext.Student
                 .AnyAsync(s => s.Email == email && (excludeId == null || s.StudentId != excludeId));
         }
 

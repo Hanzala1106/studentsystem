@@ -6,12 +6,11 @@ using studentsystem.Repository.Interface;
 
 namespace studentsystem.Controllers
 {
-    public class CoursesController : Controller
+    public class CourseController : Controller
     {
-        private readonly AppDbContext _context;
         private readonly IUnitOfWork _unitofWork;
 
-        public CoursesController(IUnitOfWork unitofWork)
+        public CourseController(IUnitOfWork unitofWork)
         {
             _unitofWork = unitofWork;
         }
@@ -34,7 +33,7 @@ namespace studentsystem.Controllers
             return View(courses);
 
         }
-
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -42,10 +41,9 @@ namespace studentsystem.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Create(Courses course)
+        public async Task<IActionResult> Create(Course course)
         {
-            var CourseCodeExists = await _context.Courses
-                         .AnyAsync(s => s.CourseCode == course.CourseCode && s.CourseId != course.CourseId);
+            var CourseCodeExists = await _unitofWork.CourseRepository.IsCourseCodeExist(course.CourseCode);
 
             if (CourseCodeExists)
             {
@@ -76,16 +74,14 @@ namespace studentsystem.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> Edit(Courses model)
+        public async Task<IActionResult> Edit(Course model)
         {
 
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-            var CourseCodeExists = await _context.Courses
-                        .AnyAsync(s => s.CourseCode == model.CourseCode && s.CourseId != model.CourseId);
-
+            var CourseCodeExists = await _unitofWork.CourseRepository.IsCourseCodeExist(model.CourseCode, model.CourseId);
             if (CourseCodeExists)
             {
                 ModelState.AddModelError("CourseCode", "CourseCode must be unique");
@@ -96,15 +92,7 @@ namespace studentsystem.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        //var DuplicateEnrollment = await _context.Enrollments
-        //        .AnyAsync(e => e.StudentId == model.StudentId && e.CourseId == model.CourseId);
-
-        //    if (DuplicateEnrollment)
-        //    {
-        //        ModelState.AddModelError("", "This student is already enrolled in the selected course");
-        //    }
-
-
+        
         public async Task<IActionResult> Delete(int id)
         {
             var courses = await _unitofWork.CourseRepository.GetByIdAsync(id);

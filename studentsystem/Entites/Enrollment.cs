@@ -2,7 +2,7 @@
 
 namespace studentsystem.Entites
 {
-    public class Enrollments
+    public class Enrollment
     {
         [Key]
         public int EnrollmentId { get; set; }
@@ -12,8 +12,8 @@ namespace studentsystem.Entites
         public int CourseId { get; set; }
         public string? Grade { get; set; }
         public DateOnly EnrollmentDate { get; set; }
-        public Students Student { get; set; }
-        public Courses Course { get; set; }
+        public Student Student { get; set; }
+        public Course Course { get; set; }
 
 
     }

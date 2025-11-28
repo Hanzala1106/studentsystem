@@ -2,7 +2,7 @@
 
 namespace studentsystem.Repository.Interface
 {
-    public interface IEnrollmentRepository : IRepository<Enrollments, int>
+    public interface IEnrollmentRepository : IRepository<Enrollment, int>
     {
         Task<int> GetTotalEnrollmentsAsync();
         Task<List<object>> GetTopStudentsAsync();

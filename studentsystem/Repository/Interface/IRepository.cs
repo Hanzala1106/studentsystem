@@ -8,7 +8,7 @@ namespace studentsystem.Repository.Interface
         Task<List<TEntity>> GetAllAsync();
         void Update(TEntity entity);
         void Remove(TEntity entity);
-        Task Save();
+        Task<int> Save();
         void Add(TEntity entity);
         Task<int> Count();
 

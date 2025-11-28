@@ -2,7 +2,7 @@
 
 namespace studentsystem.Entites
 {
-    public class Students
+    public class Student
     {
 
         [Key]
@@ -13,7 +13,7 @@ namespace studentsystem.Entites
         public string Email { get; set; }
 
         public DateOnly EnrollmentDate { get; set; }
-        public ICollection<Enrollments> Enrollments { get; set; } = new List<Enrollments>();
+        public ICollection<Enrollment> Enrollments { get; set; } = new List<Enrollment>();
 
 
     }

@@ -7,12 +7,12 @@ using studentsystem.Repository.Interface;
 
 namespace studentsystem.Controllers
 {
-    public class EnrollmentsController : Controller
+    public class EnrollmentController : Controller
     {
         private readonly AppDbContext _context;
         private readonly IUnitOfWork _unitofWork;
 
-        public EnrollmentsController(IUnitOfWork unitofWork)
+        public EnrollmentController(IUnitOfWork unitofWork)
         {
             _unitofWork = unitofWork;
         }
@@ -35,7 +35,7 @@ namespace studentsystem.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Create(Enrollments model)
+        public async Task<IActionResult> Create(Enrollment model)
 
         {
             var DuplicateEnrollment = await _unitofWork.EnrollmentRepository
@@ -47,11 +47,11 @@ namespace studentsystem.Controllers
 
             if (ModelState.IsValid)
             {
-                ViewBag.StudentList = new SelectList(await _context.Students.ToListAsync(), "StudentId", "FirstName", model.StudentId);
-                ViewBag.CourseList = new SelectList(await _context.Courses.ToListAsync(), "CourseId", "CourseName", model.CourseId);
+                ViewBag.StudentList = new SelectList(await _unitofWork.StudentRepository.GetAllAsync(), "StudentId", "FirstName", model.StudentId);
+                ViewBag.CourseList = new SelectList(await _unitofWork.CourseRepository.GetAllAsync(), "CourseId", "CourseName", model.CourseId);
                 return View(model);
             }
-            _context.Enrollments.Add(model);
+            _unitofWork.EnrollmentRepository.Add(model);
             await _unitofWork.EnrollmentRepository.Save();
             return RedirectToAction(nameof(Index));
         }
@@ -69,7 +69,7 @@ namespace studentsystem.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Enrollments model)
+        public async Task<IActionResult> Edit(Enrollment model)
         {
 
             if (ModelState.IsValid)

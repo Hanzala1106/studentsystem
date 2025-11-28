@@ -6,13 +6,12 @@ using studentsystem.Repository.Interface;
 
 namespace studentsystem.Controllers
 {
-    public class StudentsController : Controller
+    public class StudentController : Controller
     {
 
-        private readonly AppDbContext _context;
         private readonly IUnitOfWork _unitofWork;
 
-        public StudentsController(IUnitOfWork unitofWork)
+        public StudentController(IUnitOfWork unitofWork)
         {
             _unitofWork = unitofWork;
         }
@@ -38,7 +37,7 @@ namespace studentsystem.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Students student)
+        public async Task<IActionResult> Create(Student student)
         {
             var EmailExists = await _unitofWork.StudentRepository.IsEmailExist(student.Email);
 
@@ -68,7 +67,7 @@ namespace studentsystem.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> Edit(Students model)
+        public async Task<IActionResult> Edit(Student model)
         {
             if (!ModelState.IsValid)
             {

@@ -26,7 +26,7 @@ namespace studentsystem.Controllers
 
             DateOnly fromDate = DateOnly.FromDateTime(DateTime.Now.AddDays(-7));
             ViewBag.RecentStudents = await _unitOfWork.StudentRepository
-                .GetAllAsync(s => s.EnrollmentDate >= fromDate, orderBy: s => s.OrderByDescending(x => x.EnrollmentDate), take: 5);
+                .GetAllAsync();
 
             ViewBag.PopularCourses = await _unitOfWork.EnrollmentRepository.GetPopularCoursesAsync();
             ViewBag.CourseAvgGrades = await _unitOfWork.EnrollmentRepository.GetCourseAvgGradesAsync();

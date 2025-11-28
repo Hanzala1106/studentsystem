@@ -1,13 +1,11 @@
-﻿@model studentsystem.Entites.Enrollments
+﻿@model studentsystem.Entites.Enrollment
 
 @{
-	ViewData["Title"] = "Delete Enrollment";
+	ViewData["Title"] = "Enrollment Details";
 }
 
 
 <h1>@ViewData["Title"]</h1>
-
-<h3>Are you sure you want to delete this?</h3>
 
 <div>
 	<h4>Enrollments</h4>
@@ -32,8 +30,11 @@
 			@Html.DisplayFor(model => model.EnrollmentDate)
 		</dd>
 	</dl>
-	<form asp-action="Delete" method="post">
-		<input type="hidden" asp-for="EnrollmentId" />
-		<input type="submit" value="Delete" class="btn btn-danger" /> |
+
+
+	<div>
 		<a asp-action="Index">Back to List</a>
-	</form>
+
+	</div>
+
+</div>

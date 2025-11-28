@@ -33,9 +33,9 @@ namespace studentsystem.Repository.Implementation
         {
             Context.Set<TEntity>().Remove(entity);
         }
-        public async Task Save()
+        public async Task<int> Save()
         {
-            Context.SaveChangesAsync();
+            return await Context.SaveChangesAsync();
         }
         public void Add(TEntity entity)
         {
