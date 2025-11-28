@@ -11,12 +11,6 @@ namespace studentsystem.Repository.Implementation
         {
         }
         private AppDbContext AppDbContext => Context as AppDbContext;
-
-        public Task<int> GetTotalEnrollmentsAsync()
-        {
-            return AppDbContext.Enrollment.CountAsync();
-        }
-
         public async Task<List<object>> GetTopStudentsAsync()
         {
             return await AppDbContext.Enrollment

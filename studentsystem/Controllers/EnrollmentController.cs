@@ -9,15 +9,11 @@ namespace studentsystem.Controllers
 {
     public class EnrollmentController : Controller
     {
-        private readonly AppDbContext _context;
         private readonly IUnitOfWork _unitofWork;
-
         public EnrollmentController(IUnitOfWork unitofWork)
         {
             _unitofWork = unitofWork;
         }
-
-
 
         public async Task<IActionResult> Index()
         {
@@ -27,7 +23,6 @@ namespace studentsystem.Controllers
 
         public async Task<IActionResult> Create()
         {
-
             var students = await _unitofWork.StudentRepository.GetAllAsync();
             var courses = await _unitofWork.CourseRepository.GetAllAsync();
             ViewBag.StudentList = new SelectList(students, "StudentId", "FirstName");
@@ -38,11 +33,10 @@ namespace studentsystem.Controllers
         public async Task<IActionResult> Create(Enrollment model)
 
         {
-            var DuplicateEnrollment = await _unitofWork.EnrollmentRepository
-                        .IsDuplicateEnrollmentAsync(model.StudentId, model.CourseId);
+            var DuplicateEnrollment = await _unitofWork.EnrollmentRepository.IsDuplicateEnrollmentAsync(model.StudentId, model.CourseId);
             if (DuplicateEnrollment)
             {
-                ModelState.AddModelError("", "This student is already enrolled in the selected course");
+                ModelState.AddModelError("", "already enrolled");
             }
 
             if (ModelState.IsValid)
@@ -76,11 +70,10 @@ namespace studentsystem.Controllers
             {
                 return View(model);
             }
-            var DuplicateEnrollment = await _unitofWork.EnrollmentRepository
-                        .IsDuplicateEnrollmentAsync(model.StudentId, model.CourseId);
+            var DuplicateEnrollment = await _unitofWork.EnrollmentRepository.IsDuplicateEnrollmentAsync(model.StudentId, model.CourseId);
             if (DuplicateEnrollment)
             {
-                ModelState.AddModelError("", "This student is already enrolled in the selected course");
+                ModelState.AddModelError("", "already in the cousre");
             }
             _unitofWork.EnrollmentRepository.Update(model);
             await _unitofWork.EnrollmentRepository.Save();

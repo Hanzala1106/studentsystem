@@ -11,10 +11,19 @@ namespace studentsystem.Repository.Implementation
         {
         }
         private AppDbContext AppDbContext => Context as AppDbContext;
-        public Task<bool> IsEmailExist(string email, int? excludeId = null)
+        public Task<bool> IsEmailExist(string email)
         {
             return AppDbContext.Student
-                .AnyAsync(s => s.Email == email && (excludeId == null || s.StudentId != excludeId));
+                .AnyAsync(s => s.Email == email);
+        }
+        public async Task<List<Student>> GetRecentAsync(DateOnly fromDate)
+        {
+            var recentStudents = await AppDbContext.Student
+                .Where(s => s.EnrollmentDate >= fromDate)
+                .OrderByDescending(s => s.EnrollmentDate)
+                .Take(5)
+                .ToListAsync();
+            return recentStudents;
         }
 
 

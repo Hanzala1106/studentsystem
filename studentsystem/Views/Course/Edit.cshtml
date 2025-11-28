@@ -1,9 +1,5 @@
 ﻿@model studentsystem.Entites.Course
-
-@{
-	ViewData["Title"] = "Edit Course";
-}
-<h1>@ViewData["Title"]</h1>
+<h1>Edit Course</h1>
 <form asp-action="Edit" method="post">
 	<input type="hidden" asp-for="CourseId" />
 	<div class="form-group">
